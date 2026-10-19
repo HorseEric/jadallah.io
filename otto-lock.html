@@ -27,7 +27,7 @@ img{max-width:100%}
 <p style="margin: 0; font-family: 'Source Sans 3', sans-serif; font-size: 16px; color: #555555;">Otto LLC, 2016 · Product development co-op: production parts, test fixtures, vendor bring-up</p>
 </header>
 
-<p style="margin: 0;">A smart deadbolt from a Bay Area startup, which I helped take from CAD to a production line during a nine-month co-op. I designed production parts, built the fixtures that tested them, and then flew to China to get two vendors running those tests on their own lines. My work on it earned a <a href="https://patents.justia.com/patent/10683677">patent</a>.</p>
+<p style="margin: 0;">A smart deadbolt from a Bay Area startup, which I helped take from CAD to a production line during a nine-month co-op. I designed production parts, built the fixtures that tested them, and then taught two vendors to run those tests on their own lines. Two patents were earned and can be seen in the <a href="index.html#patents">patent section</a>.</p>
 
 <figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
 <div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
@@ -47,12 +47,12 @@ img{max-width:100%}
 </table>
 
 <div style="padding: 18px 22px; background: #F4F6FA; border: 1px solid #D5DCEA;">
-<p style="margin: 0;"><strong style="font-weight: 600;">TL;DR.</strong> Otto made a smart lock. I drew some of the parts that went into it, then built the stations that check each lock before it ships. Every station is simple enough for anyone to run and easy to hand over to a machine later. Then I went to the factories in China and taught them to build and run the same stations themselves.</p>
+<p style="margin: 0;"><strong style="font-weight: 600;">TL;DR.</strong> Otto made a smart lock. I designed a few of the parts inside, then built the fixtures that check each lock before it ships. Every station is simple enough for anyone to run and easy to hand over to a machine later, as we scaled. Vendors were taught how to do assembly verification and quality control with these fixtures.</p>
 </div>
 
 <section style="display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; font-size: 22px; font-weight: 600;">1. Production parts</h2>
-<p style="margin: 0;">I'd never touched Siemens NX before day one, and then I was in it every day for nine months. I modeled several production components and their assemblies and drew them up with GD&amp;T. When the first articles came back I measured them myself against those drawings, partly on an optical measuring machine I set up to run automatically. Prototypes came off Otto's own printers when we needed them fast, and from outside print services when we needed them better.</p>
+<p style="margin: 0;">I modeled several production components using Siemens NX, then took them through the full engineering steps. When the first article inspections came back I measured them myself against those drawings, partly on an optical measuring machine where I had designed automatic protocols.</p>
 <figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
 <div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
 <img src="images/otto-02.jpg" alt="Render of a cork box with its lid lifted, holding the lock's parts in fitted pockets" style="display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; mix-blend-mode: multiply;">
@@ -63,7 +63,7 @@ img{max-width:100%}
 
 <section style="display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; font-size: 22px; font-weight: 600;">2. The bolt test</h2>
-<p style="margin: 0;">This was my favorite one. The bolt ships as its own assembly and the customer puts it in the door, so it has to pass on its own before it leaves. My fixture checks seven things about the bolt in four moves by the operator. A Mark-10 reads every force, and a voltmeter confirms the whole circuit.</p>
+<p style="margin: 0;">A predecessor to my later work. The bolt ships as its own assembly and the customer puts it in the door, so it has to pass on its own before it leaves. My fixture checks seven things about the bolt in four moves by the operator. A Mark-10 reads every force, and a voltmeter confirms the whole circuit.</p>
 <p style="margin: 0;">Every operator step is either flipping a toggle clamp or taking a reading. That was on purpose. Otto planned to automate this once volume went up, so swapping the clamps for electric actuators and letting a computer take the readings is all it takes.</p>
 <figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
 <img src="images/otto-03.jpg" alt="Bolt test fixture on an aluminum plate with toggle clamps, a linear slide and a Mark-10 gauge beside it" style="display: block; width: 100%; height: auto; border: 1px solid #DDDDDD;">
@@ -74,7 +74,7 @@ img{max-width:100%}
 <section style="display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; font-size: 22px; font-weight: 600;">3. Bezel torque</h2>
 <p style="margin: 0;">The bezels on the lock have to turn with the same feel every time, so I adapted the bolt fixture to measure their torque. A toggle clamp pushes a FUTEK torque sensor into the bezel. The trick is a spring on a linear rail behind it, which keeps that contact force identical from part to part no matter who's pulling the clamp.</p>
-<p style="margin: 0;">For the operator it's dead simple. Close the clamp, pick inner or outer bezel in the program, hit record, and turn the crank. The program logs two full turns, just to be sure. Put a motor on the crank and an actuator on the clamp, and the whole thing runs itself off one button.</p>
+<p style="margin: 0;">For the operator it's simple and very difficult to do incorrectly. Close the clamp, pick inner or outer bezel in the program, hit record, and turn the crank. The program logs two full turns, just to be sure. Put a motor on the crank and an actuator on the clamp, and the whole thing runs itself off one button.</p>
 <figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
 <img src="images/otto-06.jpg" alt="Bezel torque fixture: a red FUTEK torque sensor inline on a rail with a toggle clamp and crank, a PC showing the torque program behind it" style="display: block; width: 100%; height: auto; border: 1px solid #DDDDDD;">
 <figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 4. The bezel torque fixture and its test program.</figcaption>
@@ -83,7 +83,7 @@ img{max-width:100%}
 
 <section style="display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; font-size: 22px; font-weight: 600;">4. Eject bezel</h2>
-<p style="margin: 0;">The eject bezel only turns 70° clockwise and then springs back, so there's one number to check. It has to be stiff enough that nobody trips it by accident, and light enough to turn without a tool. I made a plate that mounts into a Mark-10 desktop torque tester. You set the bezel on it, turn it the full 70°, and read off the peak.</p>
+<p style="margin: 0;">The eject bezel only turns 70° clockwise and then springs back, so there's one number to check. It has to be stiff enough that nobody trips it by accident, and light enough to turn without a tool. A plate was designed that fits into a Mark-10 desktop torque tester. You set the bezel on it, turn it the full 70°, and read the peak torque.</p>
 <figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
 <img src="images/otto-07.jpg" alt="Mark-10 desktop torque tester with a custom orange mounting plate holding the eject bezel" style="display: block; width: 100%; max-width: 520px; height: auto; border: 1px solid #DDDDDD; margin: 0 auto;">
 <figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 5. Eject bezel fixture on the Mark-10.</figcaption>
