@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Inline-4 Engine, Eric Jadallah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#1F4FA8}a:hover{color:#123570}
+img{max-width:100%}
+</style>
+</head>
+<body>
+<div style="background: #FFFFFF; color: #1A1A1A; font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; line-height: 1.65; min-height: 100vh;">
+
+<div style="max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; display: flex; flex-direction: column; gap: 36px;">
+
+<nav aria-label="Breadcrumb" style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">
+<a href="index.html">Eric Jadallah</a> / Projects / Inline-4 Engine
+</nav>
+
+<header style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 20px; border-bottom: 1px solid #1A1A1A;">
+<h1 style="margin: 0; font-size: 34px; font-weight: 600; line-height: 1.2;">Inline-4 Engine</h1>
+<p style="margin: 0; font-family: 'Source Sans 3', sans-serif; font-size: 16px; color: #555555;">Case Western Reserve University, 2017 · Team lead, piston design, materials and manufacturing</p>
+</header>
+
+<p style="margin: 0;">A 1.6 L motorcycle engine that eleven of us designed from a blank page in one semester, for our senior capstone. I ran the team, designed the piston, and chose how every part we designed would be made.</p>
+
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
+<img src="images/i4-01-assembly.png" alt="Rendered CAD model of the complete inline-4 engine with flywheel, block, cylinder head and manifolds" style="display: block; width: 100%; max-width: 520px; height: auto; margin: 0 auto; mix-blend-mode: multiply;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 1. The full engine in SolidWorks.</figcaption>
+</figure>
+
+<table style="width: 100%; border-collapse: collapse; font-size: 17px;">
+<caption style="text-align: left; font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555; padding-bottom: 6px;">Table 1. Specifications</caption>
+<tbody>
+<tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top; width: 30%;">Engine</th><td style="padding: 10px 0;">Inline-4, 1600 cc, 10:1 compression, single overhead cam with 2 valves per cylinder, direct injection, liquid cooled</td></tr>
+<tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Operating range</th><td style="padding: 10px 0;">800 rpm idle, 5000 rpm all day, 6500 rpm redline.</td></tr>
+<tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Tools</th><td style="padding: 10px 0;">SolidWorks for CAD, FEA and file control, Matlab for the combustion, torque and cam models, CES EduPack for costing</td></tr>
+<tr style="border-top: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Cost</th><td style="padding: 10px 0;">$4,685 per engine, under the $5,000 ceiling</td></tr>
+</tbody>
+</table>
+
+<div style="padding: 18px 22px; background: #F4F6FA; border: 1px solid #D5DCEA;">
+<p style="margin: 0;"><strong style="font-weight: 600;">TL;DR.</strong> Our class got a pretend customer who wanted a motorcycle engine. We designed every part of it on the computer, worked out how each one would be made and what it would cost, and checked that nothing would bend, crack or overheat. My piece was the piston, the materials for everything, and keeping eleven people on schedule.</p>
+</div>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">1. The brief</h2>
+<p style="margin: 0;">The customer wanted a fuel-injected four-stroke between 1500 and 1800 cc that idles at 800 rpm, runs all day at 5000, and could be built at 7,500 units a year, growing to 15,000. We had sixteen weeks and a $5,000 cost ceiling. Funny enough, the inline-3 beat the inline-4 by one point on our Pugh chart. We took the four anyway, since it scored middle of the road everywhere and the three was awful at balance.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">2. The piston</h2>
+<p style="margin: 0;">I started from what the crown has to survive, which is peak cylinder pressure pushing on it like a flat plate. Across four alloys the minimum came out between 3.5 and 5.1 mm, so I set it at 6 mm before we'd even picked a material. I also did the three rings and the wrist pin.</p>
+<p style="margin: 0;">It's metal injection molded in 420 stainless. Nobody ever sees the inside of a piston, so the gates, sliders and negative draft all go there. Molding holds the outside tighter than a casting, which means less time on the CNC, and lets me put ribs around the pin boss without adding weight. About $55 a piston.</p>
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; align-items: center;">
+<img src="images/i4-05-piston-section.png" alt="Section view of the piston showing the crown, three ring grooves, the wrist pin and the top of the connecting rod" style="display: block; width: 100%; height: auto; mix-blend-mode: multiply;">
+<img src="images/i4-06-piston-fea.png" alt="Finite element plot on the piston, colored from blue to red" style="display: block; width: 100%; height: auto; mix-blend-mode: multiply;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 2. The piston in section, and its FEA under peak combustion pressure.</figcaption>
+</figure>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">3. Bottom end</h2>
+<p style="margin: 0;">The rods are forged 4140 with an I-beam section, five times as long as the crank radius so the piston pushes into the wall less. The crank is one forged piece of 4340 with the counterweights built in. A flat-crank four cancels its main shaking forces by itself, and under 2 liters the mounts can soak up what's left, so we skipped balance shafts.</p>
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
+<img src="images/i4-02-rotating-assembly.png" alt="Crankshaft with four connecting rods and pistons" style="display: block; width: 100%; max-width: 520px; height: auto; margin: 0 auto; mix-blend-mode: multiply;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 3. The crank, rods and pistons.</figcaption>
+</figure>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">4. Top end and block</h2>
+<p style="margin: 0;">The aluminum head has a wedge chamber borrowed from old Ford small blocks, which squeezes the mixture toward the spark plug. Our first valvetrain had rocker arms running 1:1, which meant they did nothing, so we pulled them and put the cam right on the tappets. The block is sand-cast aluminum with pressed-in steel sleeves. Coolant passes the cylinders one after another, and the head gets its own parallel loop so every cylinder sees the same cool water.</p>
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
+<img src="images/i4-03-exploded-head-and-valvetrain.png" alt="Exploded view of the valve cover, camshaft, cam bearings, tappets, valves, cylinder head and manifolds" style="display: block; width: 100%; max-width: 420px; height: auto; margin: 0 auto; mix-blend-mode: multiply;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 4. Exploded view of the head and valvetrain.</figcaption>
+</figure>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">5. How we proved it worked</h2>
+<p style="margin: 0;">We never got to build it, so everything had to hold up on paper. Step by step:</p>
+<ol style="margin: 0; padding-left: 26px; display: flex; flex-direction: column; gap: 8px;">
+<li>Find the worst moment for each part. For most of them that's a cylinder firing at 6500 rpm.</li>
+<li>Check it by hand from the textbook equations.</li>
+<li>Check it again in SolidWorks FEA or a Matlab model, and see if the two agree.</li>
+<li>Cost every part at its real batch size, then compare against what aftermarket parts sell for.</li>
+<li>Run an FMEA, and walk every customer requirement to the spot in the design that meets it.</li>
+</ol>
+<table style="width: 100%; border-collapse: collapse; font-size: 17px;">
+<caption style="text-align: left; font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555; padding-bottom: 6px;">Table 2. The checks that mattered most</caption>
+<tbody>
+<tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top; width: 30%;">Connecting rod</th><td style="padding: 10px 0;">Buckling safety factor of 7.85 by hand and 7.7 in FEA, under a 33.6 kN firing load</td></tr>
+<tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Crankshaft</th><td style="padding: 10px 0;">Worst stress in the webs at 73.5 MPa. Normalizing the steel raised its fatigue safety factor from 2.6 to 4.4.</td></tr>
+<tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Valvetrain</th><td style="padding: 10px 0;">Cam pressure angle of 26°, under the 30° limit. Intake flow at Mach 0.40, well short of choking.</td></tr>
+<tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Flywheel</th><td style="padding: 10px 0;">Sized from Matlab torque curves to hold idle within 5% of 800 rpm</td></tr>
+<tr style="border-top: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Cooling</th><td style="padding: 10px 0;">Cylinder walls kept under 380 K</td></tr>
+</tbody>
+</table>
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
+<img src="images/i4-07-conrod-buckling-fea.png" alt="Buckling FEA plot of the connecting rod, colored from blue at the big end to red at the small end" style="display: block; width: 100%; max-width: 480px; height: auto; margin: 0 auto; mix-blend-mode: multiply;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 5. Buckling FEA on the connecting rod.</figcaption>
+</figure>
+<p style="margin: 0;">The last test was people. We had design reviews in weeks 4, 8 and 15 in front of the professor, the TAs and the class, and every number above had to survive somebody asking why.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">6. Running the team</h2>
+<p style="margin: 0;">We started with a sub-team per system, and half the team ended up idle every other week. We also lost a lead mid-semester. I switched us to action items pulled from each week's deliverable, each with an owner, a date and the people it depended on. I also stood up and defended the design at every weekly review.</p>
+</section>
+
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
+<img src="images/i4-04-exploded-engine.png" alt="Exploded view of the whole engine, from valve cover down through head, block, crankshaft, flywheel and sump" style="display: block; width: 100%; max-width: 520px; height: auto; margin: 0 auto; mix-blend-mode: multiply;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 6. Exploded view of the whole engine.</figcaption>
+</figure>
+
+<footer style="padding-top: 20px; border-top: 1px solid #1A1A1A; font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;">
+<p style="margin: 0;">Want the details? <a href="mailto:eric@jadallah.io">Ask me about it</a>, or <a href="https://drive.google.com/file/d/1wmUait3LbxtPPLZ0MmSMwe3hMNnankD9/view?usp=sharing">read our full report</a>.</p>
+<a href="index.html">Back to all projects</a>
+</footer>
+
+</div>
+</div>
+</body>
+</html>

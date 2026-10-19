@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Deadbolt and Latch Validation, Eric Jadallah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#FFFFFF}
+a{color:#1F4FA8}a:hover{color:#123570}
+</style>
+</head>
+<body>
+<div style="background: #FFFFFF; color: #1A1A1A; font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; line-height: 1.65; min-height: 100vh;">
+
+<div style="max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; display: flex; flex-direction: column; gap: 36px;">
+
+<nav aria-label="Breadcrumb" style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">
+<a href="index.html">Eric Jadallah</a> / Projects / Deadbolt and Latch Validation
+</nav>
+
+<header style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 20px; border-bottom: 1px solid #1A1A1A;">
+<h1 style="margin: 0; font-size: 34px; font-weight: 600; line-height: 1.2;">Deadbolt and Latch Validation</h1>
+<p style="margin: 0; font-family: 'Source Sans 3', sans-serif; font-size: 16px; color: #555555;">WedgeTLS, 2026 · Design, build and test software</p>
+</header>
+
+<p style="margin: 0;">A bench station I built to life-test Tyto deadbolts and their latch subassemblies. It cycles a part for days unattended and judges it from torque alone.</p>
+
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
+<img src="images/rig-exploded.png" alt="Exploded isometric drawing of the tester: baseplate, torque sensor holder, couplings, motor mount and stepper along the drive line, with the carriage, latch parts and actuator above" style="display: block; width: 100%; max-width: 520px; height: auto; margin: 0 auto;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 1. Exploded view of the station, rendered from the SolidWorks model.</figcaption>
+</figure>
+
+<table style="width: 100%; border-collapse: collapse; font-size: 17px;">
+<caption style="text-align: left; font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555; padding-bottom: 6px;">Table 1. Specifications</caption>
+<tbody>
+<tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top; width: 30%;">Hardware</th><td style="padding: 10px 0;">NEMA 23 stepper on a TB6600 motor driver, FUTEK rotary torque sensor, zero-backlash couplings, 8-inch actuator on a linear rail, Arduino, custom brackets and holders</td></tr>
+<tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Software</th><td style="padding: 10px 0;">Python app with a browser UI, Arduino motor-control scripts, FUTEK's USB library for the sensor</td></tr>
+<tr style="border-top: 1px solid #DDDDDD; border-bottom: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Resolution</th><td style="padding: 10px 0;">±0.01 N·m per cycle at about 2,400 samples/s, held while the app runs. The sampler has its own thread and never writes to disk, so charts and analysis can't slow it down. Angle comes from the motor's step count, good to about 1°.</td></tr>
+</tbody>
+</table>
+
+<div style="padding: 18px 22px; background: #F4F6FA; border: 1px solid #D5DCEA;">
+<p style="margin: 0;"><strong style="font-weight: 600;">TL;DR.</strong> A motor turns the deadbolt or latch back and forth, over and over, while a sensor measures how hard it pushes back on every turn. The software learns what a healthy turn feels like for that one part, and it stops the test as soon as a turn looks wrong, like when a spring breaks.</p>
+</div>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">1. The rig</h2>
+<p style="margin: 0;">A stepper turns the latch cam to 65° each way and back. An inline torque sensor sits between motor and latch on zero-backlash couplings. The Arduino confirms every move, so a reset can never skip or double count a cycle.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">2. One loop, two forces</h2>
+<p style="margin: 0;">Each turn out and back traces a loop. Out is spring plus friction, back is spring minus friction. The midline is spring torque, half the gap is friction, and the loop area is the energy lost each cycle.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">3. Catching a spring failure</h2>
+<p style="margin: 0;">In plain terms, the station gets to know each part. After a few dozen turns it has a picture of how that latch feels as it rotates. Every new turn is laid over that picture. A turn with the same shape but less force means the spring is getting weaker. A turn with a different shape means something inside moved or broke. When either one goes too far, the test pauses so the part can be looked at while the failure is still fresh.</p>
+<p style="margin: 0;">This works better than fixed limits, which trip on noise and miss slow drift. Step by step:</p>
+<ol style="margin: 0; padding-left: 26px; display: flex; flex-direction: column; gap: 8px;">
+<li>Build a normal curve: the median torque-vs-angle shape from the latch's recent cycles at the same speed.</li>
+<li>Fit each new turn as size × normal + offset, by least squares.</li>
+<li>Size tracks spring force. If it leaves a band around 1.0, the line collapsed and the run pauses.</li>
+<li>Whatever the fit can't explain is the shape surprise. Many times the usual means something changed shape, and the run pauses.</li>
+<li>Two plain checks run alongside: a latch not home at 0° fails, and a turn gone flat flags a broken arm or dead spring.</li>
+</ol>
+<p style="margin: 0;">The math behind steps 2 to 4, in short:</p>
+<figure style="margin: 0; padding: 20px 24px; border: 1px solid #DDDDDD; background: #FAFAFA; display: flex; justify-content: center;">
+<img src="images/math-short.png" alt="This turn is approximately s times the median turn plus o. s is roughly the swing of this turn divided by the swing of the median turn. u equals what the fit misses divided by what it usually misses." style="display: block; width: 100%; max-width: 440px; height: auto;">
+</figure>
+<img src="images/math-short-legend.png" alt="Where: median turn is the same turn's median over recent same-speed cycles; s is size, where 1 means as strong as usual and low means a spring letting go; o is offset, which soaks up sensor zero drift and is then ignored; u is shape surprise, where 1 is ordinary and high means the shape changed." style="display: block; width: 100%; max-width: 600px; height: auto;">
+<p style="margin: 0;">The run pauses when a short run of cycles shows <i>s</i> leaving its band or <i>u</i> climbing far past 1.</p>
+<p style="margin: 0;">Slow wear drags the normal curve along with it, so it never trips the watch. To check the watch itself, I compared it against a latch with one spring cut on purpose. A failed spring is easy to see in the torque: the push back on the return stroke drops to almost nothing. The watch has to flag that part and stay quiet on intact ones running the same test.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">4. Running unattended</h2>
+<p style="margin: 0;">Sampling, recording and motor control run on separate threads. Every cycle is saved before it counts, a watchdog stops the rig if the sensor goes quiet, and the station re-finds its own shaft offset after any hand intervention.</p>
+</section>
+
+<section style="display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">5. Software</h2>
+<p style="margin: 0;">The station runs from a Python app with a browser UI. The live page shows where the run stands, the spring and friction readings, and two charts: torque over the last few seconds, and every out-and-back cycle overlaid and colored by cycle number, so drift shows at a glance. Pause, stop and motor speed controls sit right under the numbers, and the run keeps going if the window closes.</p>
+<p style="margin: 0;">The station can be controlled remotely, so a run can be paused, stopped or sped up without anyone at the bench. It also pushes its live status to a page on the internet, so stakeholders can follow a test from anywhere while it runs.</p>
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD;">
+<img src="images/live-sim.png" alt="The tester's live run page: run status, counters, control buttons, a live torque trace and an overlay of cycles colored by cycle number" style="display: block; width: 100%; height: auto;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 2. The live run page, during a simulated run.</figcaption>
+</figure>
+<p style="margin: 0;">A separate analysis page pulls up any run. It overlays cycles from across the run, zooms in on one part of the stroke, and lists each cycle's peaks, so a change in the part can be traced back to when it started.</p>
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD;">
+<img src="images/analysis-sim.png" alt="The tester's long-term analysis page: run picker and settings on the left, overlaid torque cycles, a zoomed path chart, peak torque, a torque-angle loop and energy per cycle on the right" style="display: block; width: 100%; height: auto;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 3. The long-term analysis page for the same simulated run.</figcaption>
+</figure>
+</section>
+
+<figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
+<div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
+<img src="images/rig-assembled.png" alt="Assembled tester on its baseplate" style="display: block; width: 100%; height: auto;">
+</div>
+<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 4. The assembled station.</figcaption>
+</figure>
+
+<footer style="padding-top: 20px; border-top: 1px solid #1A1A1A; font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;">
+<p style="margin: 0;">Want the details? <a href="mailto:eric@jadallah.io">Ask me about it.</a></p>
+<a href="index.html">Back to all projects</a>
+</footer>
+
+</div>
+</div>
+</body>
+</html>
