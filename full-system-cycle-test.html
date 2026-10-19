@@ -27,7 +27,7 @@ img{max-width:100%}
 <p style="margin: 0; font-family: 'Source Sans 3', sans-serif; font-size: 16px; color: #555555;">WedgeTLS, 2026 · Rig rebuild, test software, firmware</p>
 </header>
 
-<p style="margin: 0;">This is the rig that runs a whole Tyto lock the way a door would: lock, unlock, turn the knob, let it close, over and over for days. I took the original 2023 rig and rebuilt the software and firmware so a multi-day run can't lose its count.</p>
+<p style="margin: 0;">This is the rig that runs a whole Tyto lock the same way a door gets used: lock, unlock, turn the knob, let it close, over and over for days. I took the original 2023 rig and rebuilt the software and firmware so a multi-day run can never lose its count.</p>
 
 <figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
 <div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
@@ -46,31 +46,31 @@ img{max-width:100%}
 </table>
 
 <div style="padding: 18px 22px; background: #F4F6FA; border: 1px solid #D5DCEA;">
-<p style="margin: 0;"><strong style="font-weight: 600;">TL;DR.</strong> Two motors work the deadbolt and the door latch like a person would, for days. The computer decides every move and writes each one down, so a power blip or a reboot never costs a single counted cycle. When a part fails, the app tells you the highest count it's known to have survived.</p>
+<p style="margin: 0;"><strong style="font-weight: 600;">TL;DR.</strong> Two motors work the deadbolt and the door latch like a person would, for days at a time. The computer decides every move and counts, so a power blip or a reboot never costs a single counted cycle. When a part fails, the app tells you the highest count it's known to have survived.</p>
 </div>
 
 <section style="display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; font-size: 22px; font-weight: 600;">1. What it tests</h2>
-<p style="margin: 0;">The latch rig tests one subassembly. This one tests the lock as a system. One motor drives the deadbolt through its drive interface, and the other turns the latch like a knob. A standard cycle is lock, unlock, open the latch, close it. The latch opens down on one pass and up on the next, so both directions get tested and the wear spreads out evenly. There are also deadbolt-only and latch-only modes for testing one part by itself.</p>
+<p style="margin: 0;">The latch rig tests either a latch or a deadbolt. This one tests the lock as a full system. A full door stands in a regular house frame built from 20-20 aluminum extrusion. One motor drives the deadbolt, and the other turns the latch like a hand on the knob. A standard cycle is lock, unlock, open the latch, close it. The latch opens down on one pass and up on the next, so both directions get tested and the wear spreads out evenly. There are also deadbolt-only and latch-only modes for testing one part by itself.</p>
 <p style="margin: 0;">Each assembly keeps its own count. You can swap a latch out mid-test, put it back later, and it picks up right where it left off.</p>
 </section>
 
 <section style="display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; font-size: 22px; font-weight: 600;">2. The Arduino moves, the PC thinks</h2>
-<p style="margin: 0;">The original code kept the cycle count in the Arduino's memory. One reset and the count was gone, which kind of defeats the point of a multi-day test. So I flipped it around. The Arduino only knows how to do one move when it's told, and to say when it's done. Everything else lives on the PC: what to run, the counts, the records.</p>
-<p style="margin: 0;">Every finished move gets one line in a log file, and that log is the only source of truth. When the app starts, it replays the log to rebuild every count. If the app crashes mid-run, the run gets closed out as interrupted and nothing is lost.</p>
+<p style="margin: 0;">The original code kept the cycle count in the Arduino's memory. One reset and the count was gone, which defeats the whole point of a multi-day test. So I flipped it around. The Arduino only knows how to do one move when it's told, and to report when it's done. Everything else lives on the PC, including what to run, the counts and the records.</p>
+<p style="margin: 0;">Every finished move gets one line in a log file, and that log is the single source of truth. When the app starts, it replays the log to rebuild every count. If the app crashes mid-run, the run gets closed out as interrupted and nothing is lost.</p>
 </section>
 
 <section style="display: flex; flex-direction: column; gap: 12px;">
-<h2 style="margin: 0; font-size: 22px; font-weight: 600;">3. Counting without sensors</h2>
-<p style="margin: 0;">There are no limit switches on this rig, and I didn't want to rewire it. So the app counts motor steps from a neutral position: deadbolt unlocked, latch closed. Moves have to pair up. You can't lock twice, and the latch has to close before it opens again. That one rule keeps a motor from ever being driven past the end of its travel. The app enforces it, and the Arduino checks it again as a backstop.</p>
-<p style="margin: 0;">Without sensors, a failure is found by looking. Every inspection gets recorded as pass or fail. When something fails, the app reports the count at the last passing inspection as the known-good count. That's the conservative number for a validation report: the part made it at least that far.</p>
+<h2 style="margin: 0; font-size: 22px; font-weight: 600;">3. Built to take a beating</h2>
+<p style="margin: 0;">A real door gets treated pretty inconsistently, depending on who's using it. Some people ease it shut and some people slam it. So we built this rig to be aggressive and forceful on purpose, and to show the lock takes that beating for the whole test without any issue. Every cycle still follows the standard, with the lock going through the same unlock, open, close and lock that a person does.</p>
+<p style="margin: 0;">The app tracks both motors from a neutral position, with the deadbolt unlocked and the latch closed. Moves have to pair up. You can't lock twice, and the latch has to close before it opens again, so a motor never gets driven past the end of its travel. The app enforces that, and the Arduino checks it again as a backup. The lock gets inspected along the way, and every inspection is recorded as a pass or fail, so the count in the validation report is one we know the lock actually reached.</p>
 </section>
 
 <section style="display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; font-size: 22px; font-weight: 600;">4. Running unattended</h2>
-<p style="margin: 0;">Every move is timed against what the motion math says it should take, so a stall or a binding mechanism shows up as a slow move. The rig picked up stray serial noise early on. Now, when a reply goes missing, the app asks the Arduino where the motors actually are before calling it a fault. If the move happened, the test keeps going. Real faults stop the run, send a message to chat or email, and wait for a person to look before anything restarts.</p>
-<p style="margin: 0;">There are three ways to stop: pause, stop after the current cycle, or stop now, which cuts power to both drivers within one motor step. The rig's mechanical e-stop is still the real safety device.</p>
+<p style="margin: 0;">Every move is timed against how long the motion math says it should take, so a stall or a binding mechanism shows up as a slow move. Early on the rig picked up some stray serial noise. Now, when a reply goes missing, the app asks the Arduino where the motors actually are before calling it a fault. If the move happened, the test keeps going. Real faults stop the run, send a message to chat or email, and wait for a person to look before anything restarts.</p>
+<p style="margin: 0;">There are a few ways to stop it. You can pause, stop after the current cycle, or stop right now, which cuts power to both drivers within one motor step. The rig's mechanical e-stop is still the real safety device.</p>
 <figure style="margin: 0; display: flex; flex-direction: column; gap: 8px;">
 <div style="border: 1px solid #DDDDDD;">
 <img src="images/fdc-test-tab.png" alt="The Full System Cycle Test app's Test tab during a simulated run: deadbolt and latch cycle counts, run time, actual versus expected cycles, motor controls, position, and Pause, Stop after cycle and STOP NOW buttons" style="display: block; width: 100%; height: auto;">
@@ -82,10 +82,10 @@ img{max-width:100%}
 <section style="display: flex; flex-direction: column; gap: 12px;">
 <h2 style="margin: 0; font-size: 22px; font-weight: 600;">5. How we proved it worked</h2>
 <ol style="margin: 0; padding-left: 26px; display: flex; flex-direction: column; gap: 8px;">
-<li>Built a simulated Arduino that speaks the same commands with realistic timing, and can fake every fault we'd seen: lost replies, garbled commands, reboots mid-move, an unplugged cable.</li>
-<li>Ran the whole app against it, end to end, including stop and pause landing at the worst possible moment.</li>
-<li>Compiled the real Arduino sketch on the Mac and checked that it answers exactly like the simulator. That check is what found the bug turning serial noise into corrupted replies.</li>
-<li>Checked the predicted cycle time against the rig's first real runs. They matched.</li>
+<li>I built a simulated Arduino that speaks the same commands with realistic timing. It can fake every fault we'd seen, like lost replies, garbled commands, reboots mid-move and an unplugged cable.</li>
+<li>I ran the whole app against it end to end, including pause and stop landing at the worst possible moment.</li>
+<li>I compiled the real Arduino sketch on the Mac and checked that it answers exactly like the simulator. That check is what found the bug turning serial noise into corrupted replies.</li>
+<li>I checked the predicted cycle time against the rig's first real runs, and they matched.</li>
 </ol>
 <table style="width: 100%; border-collapse: collapse; font-size: 17px;">
 <caption style="text-align: left; font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555; padding-bottom: 6px;">Table 2. Key checks</caption>
