@@ -3,10 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="This is the rig that runs a whole Tyto lock the same way a door gets used: lock, unlock, turn the knob, let it close, over and over for days.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Eric Jadallah">
+<meta property="og:title" content="Full System Cycle Test">
+<meta property="og:description" content="This is the rig that runs a whole Tyto lock the same way a door gets used: lock, unlock, turn the knob, let it close, over and over for days.">
+<meta property="og:url" content="https://jadallah.io/full-system-cycle-test.html">
+<meta property="og:image" content="https://jadallah.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Eric Jadallah, mechanical design &amp; validation engineer, with a line drawing of the deadbolt and latch validation rig.">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="noindex">
 <title>Full System Cycle Test, Eric Jadallah</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&amp;family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#FFFFFF}
 a{color:#1F4FA8}a:hover{color:#123570}
@@ -14,17 +28,17 @@ img{max-width:100%}
 </style>
 </head>
 <body>
-<div style="background: #FFFFFF; color: #1A1A1A; font-family: 'Source Serif 4', Georgia, serif; font-size: 18px; line-height: 1.65; min-height: 100vh;">
+<div style="background: #FFFFFF; color: #1A1A1A; font-family: 'Helvetica Neue', Helvetica, Inter, Arial, sans-serif; font-size: 18px; line-height: 1.65; min-height: 100vh;">
 
 <div style="max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; display: flex; flex-direction: column; gap: 36px;">
 
-<nav aria-label="Breadcrumb" style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">
+<nav aria-label="Breadcrumb" style="font-family: 'Helvetica Neue', Helvetica, Inter, Arial, sans-serif; font-size: 15px; color: #555555;">
 <a href="index.html">Eric Jadallah</a> / Projects / Full System Cycle Test
 </nav>
 
 <header style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 20px; border-bottom: 1px solid #1A1A1A;">
 <h1 style="margin: 0; font-size: 34px; font-weight: 600; line-height: 1.2;">Full System Cycle Test</h1>
-<p style="margin: 0; font-family: 'Source Sans 3', sans-serif; font-size: 16px; color: #555555;">WedgeTLS, 2026 · Rig rebuild, test software, firmware</p>
+<p style="margin: 0; font-family: 'Helvetica Neue', Helvetica, Inter, Arial, sans-serif; font-size: 16px; color: #555555;">WedgeTLS, 2026 · Rig rebuild, test software, firmware</p>
 </header>
 
 <p style="margin: 0;">This is the rig that runs a whole Tyto lock the same way a door gets used: lock, unlock, turn the knob, let it close, over and over for days. I took the original 2023 rig and rebuilt the software and firmware so a multi-day run can never lose its count.</p>
@@ -33,11 +47,11 @@ img{max-width:100%}
 <div style="border: 1px solid #DDDDDD; padding: 24px; background: #FAFAFA;">
 <img src="images/fdc-diagram.png" alt="Block diagram: the PC app sends move commands over USB serial to an Arduino Uno, which drives two TB6600 stepper drivers, one turning the deadbolt and one turning the latch" style="display: block; width: 100%; height: auto;">
 </div>
-<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 1. How the pieces talk to each other.</figcaption>
+<figcaption style="font-family: 'Helvetica Neue', Helvetica, Inter, Arial, sans-serif; font-size: 15px; color: #555555;">Fig. 1. How the pieces talk to each other.</figcaption>
 </figure>
 
 <table style="width: 100%; border-collapse: collapse; font-size: 17px;">
-<caption style="text-align: left; font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555; padding-bottom: 6px;">Table 1. Specifications</caption>
+<caption style="text-align: left; font-family: 'Helvetica Neue', Helvetica, Inter, Arial, sans-serif; font-size: 15px; color: #555555; padding-bottom: 6px;">Table 1. Specifications</caption>
 <tbody>
 <tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top; width: 30%;">Hardware</th><td style="padding: 10px 0;">Two NEMA 23 steppers, each on its own TB6600 driver and 12 V supply, one Arduino Uno, the lock mounted in a door frame</td></tr>
 <tr style="border-top: 1px solid #DDDDDD;"><th scope="row" style="text-align: left; font-weight: 600; padding: 10px 16px 10px 0; vertical-align: top;">Software</th><td style="padding: 10px 0;">Python desktop app (PyQt5), Arduino sketch, a built-in firmware uploader, a simulator for testing without the rig</td></tr>
@@ -75,7 +89,7 @@ img{max-width:100%}
 <div style="border: 1px solid #DDDDDD;">
 <img src="images/fdc-test-tab.png" alt="The Full System Cycle Test app's Test tab during a simulated run: deadbolt and latch cycle counts, run time, actual versus expected cycles, motor controls, position, and Pause, Stop after cycle and STOP NOW buttons" style="display: block; width: 100%; height: auto;">
 </div>
-<figcaption style="font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555;">Fig. 2. The Test tab, running against the simulator.</figcaption>
+<figcaption style="font-family: 'Helvetica Neue', Helvetica, Inter, Arial, sans-serif; font-size: 15px; color: #555555;">Fig. 2. The Test tab, running against the simulator.</figcaption>
 </figure>
 </section>
 
@@ -88,7 +102,7 @@ img{max-width:100%}
 <li>I checked the predicted cycle time against the rig's first real runs, and they matched.</li>
 </ol>
 <table style="width: 100%; border-collapse: collapse; font-size: 17px;">
-<caption style="text-align: left; font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555; padding-bottom: 6px;">Table 2. Key checks</caption>
+<caption style="text-align: left; font-family: 'Helvetica Neue', Helvetica, Inter, Arial, sans-serif; font-size: 15px; color: #555555; padding-bottom: 6px;">Table 2. Key checks</caption>
 <thead>
 <tr style="border-bottom: 1px solid #1A1A1A;"><th scope="col" style="text-align: left; font-weight: 600; padding: 8px 16px 8px 0;">Risk</th><th scope="col" style="text-align: left; font-weight: 600; padding: 8px 0;">How it's covered</th></tr>
 </thead>
@@ -102,7 +116,7 @@ img{max-width:100%}
 </table>
 </section>
 
-<footer style="padding-top: 20px; border-top: 1px solid #1A1A1A; font-family: 'Source Sans 3', sans-serif; font-size: 15px; color: #555555; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;">
+<footer style="padding-top: 20px; border-top: 1px solid #1A1A1A; font-family: 'Helvetica Neue', Helvetica, Inter, Arial, sans-serif; font-size: 15px; color: #555555; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;">
 <p style="margin: 0;">Want the details? <a href="mailto:eric@jadallah.io">Ask me about it.</a></p>
 <span style="display: flex; flex-wrap: wrap; gap: 8px 24px;"><a href="deadbolt-latch-validation.html">Deadbolt and Latch Validation</a><a href="index.html">Back to all projects</a></span>
 </footer>
